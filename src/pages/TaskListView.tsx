@@ -1,8 +1,10 @@
-import React from 'react'
+import Navbar from "../component/Navbar"
 
 function TaskListView() {
   return (
-    <div>TaskListView</div>
+    <div className="bg-[#FFF9F9] w-full h-screen">
+        <Navbar />
+    </div>
   )
 }
 
