@@ -1,53 +1,31 @@
-import { MdOutlineEventNote } from "react-icons/md"
+import { CiLogout } from "react-icons/ci";
+import { MdOutlineEventNote } from "react-icons/md";
 
 const Navbar: React.FC = () => {
     return (
-        // <div className="navbar bg-base-100">
-        //     <div className="flex-1">
-        //         <a className="btn btn-ghost text-xl">Taskbuddy</a>
-        //     </div>
-        //     <div className="flex-none gap-2">
-        //         <div className="form-control">
-        //             <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
-        //         </div>
-        //         <div className="dropdown dropdown-end">
-        //             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-        //                 <div className="w-10 rounded-full">
-        //                     <img
-        //                         alt="Tailwind CSS Navbar component"
-        //                         src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-        //                 </div>
-        //             </div>
-        //             <ul
-        //                 tabIndex={0}
-        //                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        //                 <li>
-        //                     <a className="justify-between">
-        //                         Profile
-        //                         <span className="badge">New</span>
-        //                     </a>
-        //                 </li>
-        //                 <li><a>Settings</a></li>
-        //                 <li><a>Logout</a></li>
-        //             </ul>
-        //         </div>
-        //     </div>
-        // </div>
-        <div className="flex items-center justify-between px-8 py-8 ">
+        <div className="flex items-center justify-between px-8 pt-8">
             <div className="flex">
                 <div className="flex items-center">
-                    <MdOutlineEventNote size={'25px'} />
+                    <MdOutlineEventNote size={"25px"} />
                 </div>
                 <div className="h1 h-[37px] text-2xl w-[131px]">Task buddy</div>
             </div>
             <div className="flex gap-4">
-                <div >
-                    profileImage
-                </div>
-                <div>username</div>
+                <div>profileImage</div>
+                <details className="dropdown relative">
+                    <summary className="btn m-1 w-[7rem] cursor-pointer">username</summary>
+                    <ul className="dropdown-content absolute top-full left-0 bg-white shadow-lg rounded-md mt-2">
+                        <div
+                            className="flex w-[7rem] pl-4 h-[2.5rem] rounded-lg bg-[#f1d2d2] gap-2 items-center cursor-pointer"
+                        >
+                            <div><CiLogout /></div>
+                            <div>Logout</div>
+                        </div>
+                    </ul>
+                </details>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
