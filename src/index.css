@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 
-.h1{
+.h1 {
   color: #7B1984;
 }
 
 .urbanist {
-  font-family: "Urbanist", serif;
+  font-family: "Manrope", serif;
   font-optical-sizing: auto;
   /* font-weight: <weight>; */
   font-style: normal;
