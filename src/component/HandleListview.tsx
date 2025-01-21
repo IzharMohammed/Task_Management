@@ -1,9 +1,22 @@
 import { useState } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-
+type TaskCategory = "Work" | "Personal";
+type TaskStatus = "TO-DO" | "IN-PROGRESS" | "COMPLETED"
+interface Task {
+    id: number,
+    title: string,
+    date: string,
+    category: TaskCategory,
+    status: TaskStatus
+}
+interface TaskState {
+    todo: Task[],
+    inProgress: Task[],
+    completed: Task[]
+}
 
 const HandleListview: React.FC = () => {
-    const [tasks, setTasks] = useState({
+    const [tasks, setTasks] = useState<TaskState>({
         todo: [
             { id: 1, title: "Interview with Design Team", date: "Today", category: "Work", status: "TO-DO" },
             { id: 2, title: "Team Meeting", date: "30 Dec, 2024", category: "Personal", status: "TO-DO" },
@@ -25,7 +38,7 @@ const HandleListview: React.FC = () => {
         ],
     });
 
-    const renderTask = (task) => (
+    const renderTask = (task: Task) => (
         <div className="flex items-center justify-between border-b p-2" key={task.id}>
             <div className="flex items-center gap-2">
                 <div className="cursor-move">☰</div>
@@ -79,4 +92,4 @@ const HandleListview: React.FC = () => {
     );
 };
 
-export default HandleListview
+export default HandleListview;
