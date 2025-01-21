@@ -1,6 +1,4 @@
 import Navbar from "../component/Navbar"
-import { CiBoxList } from "react-icons/ci";
-import { CiViewBoard } from "react-icons/ci";
 import HandleListview from "../component/HandleListview";
 import HandleBoardView from "../component/HandleBoardView ";
 import { useState } from "react";
