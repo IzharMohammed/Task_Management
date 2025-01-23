@@ -1,4 +1,4 @@
-import Navbar from "../component/Navbar"
+import Navbar from "../component/Navbar";
 import HandleListview from "../component/HandleListview";
 import HandleBoardView from "../component/HandleBoardView ";
 import { useState } from "react";
@@ -13,9 +13,9 @@ function TaskListView() {
     const context = useAuth();
     const navigate = useNavigate();
     console.log(`context:- ${JSON.stringify(context)}`);
-        if(!context.authData.displayName){
-            navigate('/');
-        }
+    if (!context.authData.displayName) {
+        navigate('/');
+    }
     const [view, setView] = useState<ViewType>("list");
 
     return (
@@ -27,7 +27,9 @@ function TaskListView() {
                     <Board view={view} setView={setView} />
                 </div>
             </div>
-            
+
+          
+
             <div>
                 {
                     view === "list" && <HandleListview />
@@ -40,4 +42,4 @@ function TaskListView() {
     )
 }
 
-export default TaskListView
+export default TaskListView;
