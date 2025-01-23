@@ -18,6 +18,16 @@ const initialTasks: Task[] = [
     { id: "7", title: "Submit Project Proposal", category: "Work", dueDate: "Today", status: "Completed" },
     { id: "8", title: "Birthday Gift Shopping", category: "Personal", dueDate: "Today", status: "Completed" },
     { id: "9", title: "Client Presentation", category: "Work", dueDate: "25 Dec, 2024", status: "Completed" },
+    { id: "1", title: "Interview with Design Team", category: "Work", dueDate: "Today", status: "To Do" },
+    { id: "2", title: "Team Meeting", category: "Work", dueDate: "30 Dec, 2024", status: "To Do" },
+    { id: "3", title: "Design a Dashboard page along with wireframes", category: "Work", dueDate: "31 Dec, 2024", status: "To Do" },
+    { id: "4", title: "Morning Workout", category: "Personal", dueDate: "Today", status: "In Progress" },
+    { id: "5", title: "Code Review", category: "Personal", dueDate: "Today", status: "In Progress" },
+    { id: "6", title: "Update Task Tracker", category: "Personal", dueDate: "31 Dec, 2024", status: "In Progress" },
+    { id: "7", title: "Submit Project Proposal", category: "Work", dueDate: "Today", status: "Completed" },
+    { id: "8", title: "Birthday Gift Shopping", category: "Personal", dueDate: "Today", status: "Completed" },
+    { id: "9", title: "Client Presentation", category: "Work", dueDate: "25 Dec, 2024", status: "Completed" },
+
 ];
 
 const HandleBoardView: React.FC = () => {
@@ -66,4 +76,4 @@ const HandleBoardView: React.FC = () => {
     )
 }
 
-export default HandleBoardView 
+export default HandleBoardView;
