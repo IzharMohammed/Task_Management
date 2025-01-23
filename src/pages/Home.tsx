@@ -17,11 +17,13 @@ function Home() {
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
 
-
+  
 
   console.log(`user:- ${JSON.stringify(user)}`);
   if (user?.emailVerified) {
     navigate('/taskListView')
+  }else{
+    navigate('/')
   }
   // const handleLogout = () => {
   //   auth.signOut();

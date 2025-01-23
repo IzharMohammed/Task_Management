@@ -5,13 +5,17 @@ import { useState } from "react";
 import List from "../component/List";
 import Board from "../component/Board";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 type ViewType = "list" | "board";
 
 function TaskListView() {
     const context = useAuth();
+    const navigate = useNavigate();
     console.log(`context:- ${JSON.stringify(context)}`);
-    
+        if(!context.authData.displayName){
+            navigate('/');
+        }
     const [view, setView] = useState<ViewType>("list");
 
     return (
@@ -22,8 +26,8 @@ function TaskListView() {
                     <List view={view} setView={setView} />
                     <Board view={view} setView={setView} />
                 </div>
-
             </div>
+            
             <div>
                 {
                     view === "list" && <HandleListview />
