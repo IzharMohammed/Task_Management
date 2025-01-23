@@ -6,6 +6,8 @@ import { auth, signInWithGooglePopup } from '../config/firebase-config';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router';
 
+
+
 function Home() {
   const logGoogleUser = async () => {
     const response = await signInWithGooglePopup();
@@ -13,16 +15,17 @@ function Home() {
     console.log(response.user.email);
   }
   const navigate = useNavigate();
-
   const [user] = useAuthState(auth);
 
-  console.log(`user:- ${JSON.stringify(user?.emailVerified)}`);
+
+
+  console.log(`user:- ${JSON.stringify(user)}`);
   if (user?.emailVerified) {
     navigate('/taskListView')
   }
-  const handleLogout = () => {
-    auth.signOut();
-  }
+  // const handleLogout = () => {
+  //   auth.signOut();
+  // }
 
   return (
     <div className="bg-[#FFF9F9] w-full h-screen">
@@ -47,4 +50,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Home;

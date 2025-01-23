@@ -4,10 +4,14 @@ import HandleBoardView from "../component/HandleBoardView ";
 import { useState } from "react";
 import List from "../component/List";
 import Board from "../component/Board";
+import { useAuth } from "../hooks/useAuth";
 
 type ViewType = "list" | "board";
 
 function TaskListView() {
+    const context = useAuth();
+    console.log(`context:- ${JSON.stringify(context)}`);
+    
     const [view, setView] = useState<ViewType>("list");
 
     return (
