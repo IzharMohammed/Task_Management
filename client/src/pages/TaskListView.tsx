@@ -6,6 +6,7 @@ import List from "../component/List";
 import Board from "../component/Board";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router";
+import AllFunctionalities from "../component/AllFunctionalities";
 
 type ViewType = "list" | "board";
 
@@ -27,9 +28,7 @@ function TaskListView() {
                     <Board view={view} setView={setView} />
                 </div>
             </div>
-
-          
-
+            <AllFunctionalities />
             <div>
                 {
                     view === "list" && <HandleListview />
