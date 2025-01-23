@@ -9,7 +9,15 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-
+const firebaseConfig = {
+    apiKey: import.meta.env.apiKey,
+    authDomain: import.meta.env.authDomain,
+    projectId: import.meta.env.projectId,
+    storageBucket: import.meta.env.storageBucket,
+    messagingSenderId: import.meta.env.messagingSenderId,
+    appId: import.meta.env.appId,
+    measurementId: import.meta.env.measurementI
+}
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -24,9 +32,11 @@ provider.setCustomParameters({
 });
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-console.log(signInWithGooglePopup);
 
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+// export const auth = getAuth(app);
+// export const googleProvider = new GoogleAuthProvider();

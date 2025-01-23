@@ -2,13 +2,28 @@ import { MdOutlineEventNote } from 'react-icons/md'
 import GoogleButton from '../component/GoogleButton'
 import TaskListView from '../component/TaskListView'
 import "firebase/auth";
-import { signInWithGooglePopup } from '../config/firebase-config';
+import { auth, signInWithGooglePopup } from '../config/firebase-config';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router';
 
 function Home() {
   const logGoogleUser = async () => {
     const response = await signInWithGooglePopup();
     console.log(response);
+    console.log(response.user.email);
   }
+  const navigate = useNavigate();
+
+  const [user] = useAuthState(auth);
+
+  console.log(`user:- ${JSON.stringify(user?.emailVerified)}`);
+  if (user?.emailVerified) {
+    navigate('/taskListView')
+  }
+  const handleLogout = () => {
+    auth.signOut();
+  }
+
   return (
     <div className="bg-[#FFF9F9] w-full h-screen">
       <div className="flex">
