@@ -1,3 +1,5 @@
+import CreateTaskModal from "./CreateTaskModal"
+
 const AllFunctionalities: React.FC = () => {
     return (
         <div className="flex justify-between mb-4 mt-4">
@@ -33,12 +35,14 @@ const AllFunctionalities: React.FC = () => {
                     />
                 </div>
                 <div>
-                    <button
+                    {/* <button
                         type="submit"
                         className="ml-3 px-4 py-2 bg-[#7B1984] w-[13rem] rounded-lg text-white hover:bg-#7B1984/80"
+                        
                     >
-                        Search
-                    </button>
+                        Add Task
+                    </button> */}
+                    <CreateTaskModal />
                 </div>
             </div>
         </div>
