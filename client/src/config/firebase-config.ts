@@ -11,7 +11,7 @@ const firebaseConfig = {
     // messagingSenderId: import.meta.env.messagingSenderId,
     // appId: import.meta.env.appId,
     // measurementId: import.meta.env.measurementI
-
+    
     
 }
 

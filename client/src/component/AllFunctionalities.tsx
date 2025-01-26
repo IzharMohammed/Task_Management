@@ -7,7 +7,7 @@ const AllFunctionalities: React.FC = () => {
                 <div>Filter by:</div>
                 <div>
                     <details className="dropdown inline-block">
-                        <summary className="btn m-1 border border-gray-500 cursor-pointer">Categories</summary>
+                        <summary className="btn m-1 border  cursor-pointer">Categories</summary>
                         <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-40  bg-[#7B198426] p-2 shadow">
                             <li><a>work</a></li>
                             <li><a>personal</a></li>

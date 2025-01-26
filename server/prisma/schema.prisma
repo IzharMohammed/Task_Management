@@ -7,12 +7,13 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model user {
-    id          Int    @id @default(autoincrement())
+model User {
+    id          Int     @id @default(autoincrement())
     email       String
     displayName String
     photoUrl    String
     accessToken String
+    tasks       Tasks[]
 }
 
 model Tasks {
@@ -22,6 +23,8 @@ model Tasks {
     category    CategoryStatus
     DueOn       String
     taskStatus  TaskStatus     @default(TODO)
+    user        User           @relation(fields: [userId], references: [id])
+    userId      Int
 }
 
 enum TaskStatus {
