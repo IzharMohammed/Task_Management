@@ -1,7 +1,7 @@
-import express,{ Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction } from "express";
 const app = express();
 import bodyParser from "body-parser";
-import  verifyFirebaseToken from "./middleware/authMiddleware";
+import verifyFirebaseToken from "./middleware/authMiddleware";
 // import verifyFirebaseToken from "./middleware/authMiddleware";
 
 // Middleware
@@ -12,9 +12,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const apiVersion = "/api/v1";
 
 // Authentication routes
-app.post(`${apiVersion}/auth/verify`, verifyFirebaseToken , (req: Request, res: Response) => {
-    
-    res.status(200).send({ message: "User authenticated successfully" });
+app.post(`${apiVersion}/auth/verify`, verifyFirebaseToken, (req: Request, res: Response) => {
+
+  res.status(200).send({ message: "User authenticated successfully" });
 });
 
 app.put(`${apiVersion}/users/:userId`, verifyFirebaseToken, (req: Request, res: Response) => {
@@ -33,24 +33,24 @@ app.put(`${apiVersion}/users/:userId`, verifyFirebaseToken, (req: Request, res: 
 // Task Management routes
 app.get(`${apiVersion}/tasks`, verifyFirebaseToken, (req: Request, res: Response) => {
   // Fetch all tasks for the authenticated user
-  
-  
+
+
   res.status(200).send({ message: "All tasks fetched" });
 });
 
 app.post(`${apiVersion}/tasks`, verifyFirebaseToken, (req: Request, res: Response) => {
   const { title, category, tags, dueDate } = req.body;
   // Create task logic here
- 
- 
+
+
   res.status(201).send({ message: "Task created successfully", task: { title, category, tags, dueDate } });
 });
 
 app.get(`${apiVersion}/tasks/:taskId`, verifyFirebaseToken, (req: Request, res: Response) => {
   const { taskId } = req.params;
   // Fetch single task logic here
-  
-  
+
+
   res.status(200).send({ message: "Task fetched successfully", taskId });
 });
 
@@ -58,16 +58,16 @@ app.put(`${apiVersion}/tasks/:taskId`, verifyFirebaseToken, (req: Request, res: 
   const { taskId } = req.params;
   const { updates } = req.body;
   // Update task logic here
-  
-  
+
+
   res.status(200).send({ message: "Task updated successfully", taskId, updates });
 });
 
 app.delete(`${apiVersion}/tasks/:taskId`, verifyFirebaseToken, (req: Request, res: Response) => {
   const { taskId } = req.params;
   // Delete task logic here
-  
-  
+
+
   res.status(200).send({ message: "Task deleted successfully", taskId });
 });
 
@@ -178,5 +178,5 @@ app.get(`${apiVersion}/tasks/search`, verifyFirebaseToken, (req: Request, res: R
 // Start server
 const PORT = 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}${apiVersion}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
