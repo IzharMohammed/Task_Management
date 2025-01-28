@@ -27,8 +27,8 @@ function Home() {
       photoUrl: response.user.photoURL,
       accessToken,
     }
-    console.log(`accesstoken:- ${context.authData.accessToken}`);
-    console.log(`accessToken:- ${accessToken}`);
+    // console.log(`accesstoken:- ${context.authData.accessToken}`);
+    // console.log(`accessToken:- ${accessToken}`);
     if (accessToken) {
       await axios.post(`http://localhost:5000/api/v1/auth/verify`,
         data,
@@ -44,7 +44,7 @@ function Home() {
     }
   }
 
-  console.log(`accesstoken:- ${context.authData.accessToken}`);
+  // console.log(`accesstoken:- ${context.authData.accessToken}`);
 
 
   const navigate = useNavigate();

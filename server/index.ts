@@ -61,13 +61,16 @@ app.get(`${apiVersion}/tasks/:userId`, async (req: Request, res: Response) => {
 
 app.post(`${apiVersion}/tasks`, verifyFirebaseToken, async (req: Request, res: Response) => {
   const { description, due_date, task_category, task_status, title, userId } = req.body;
+  console.log(`task_category:- ${task_category}`);
+  console.log(`task_status:- ${task_status}`);
+  
   const result = await prisma.tasks.create({
     data: {
       title,
       description,
       category: task_category == "Work" ? "Work" : "Personal",
       DueOn: due_date,
-      taskStatus: task_status == "completed" ? "COMPLETED" : task_status == "INPROGRES" ? "INPROGRES" : "TODO",
+      taskStatus: task_status == "completed" ? "COMPLETED" : task_status == "In-Progress" ? "INPROGRES" : "TODO",
       userId
     }
   });

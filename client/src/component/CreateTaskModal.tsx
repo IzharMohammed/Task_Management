@@ -83,7 +83,7 @@ const CreateTaskModal = () => {
 
                 <select {...register("task_category", { required: true })}>
                   <option value="Work">Work</option>
-                  <option value=" Personal"> Personal</option>
+                  <option value="Personal"> Personal</option>
                 </select>
 
                 <input type="date" placeholder="dueDate" {...register("due_date", { required: true })} />
@@ -92,8 +92,8 @@ const CreateTaskModal = () => {
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   {...register("task_status", { required: true })}>
                   <option value="To-Do">To-Do</option>
-                  <option value=" In-Progress"> In-Progress</option>
-                  <option value=" Completed"> Completed</option>
+                  <option value="In-Progress"> In-Progress</option>
+                  <option value="Completed"> Completed</option>
                 </select>
 
                 {/* Modal Footer */}

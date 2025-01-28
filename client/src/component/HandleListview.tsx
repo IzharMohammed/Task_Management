@@ -6,7 +6,7 @@ import { auth } from "../config/firebase-config";
 import { useAuth } from "../hooks/useAuth";
 
 type TaskCategory = "Work" | "Personal";
-type TaskStatus = "TODO" | "IN-PROGRESS" | "COMPLETED";  // Update status values based on your data
+type TaskStatus = "TODO" | "INPROGRES" | "COMPLETED";  // Update status values based on your data
 
 interface Task {
     id: number;
@@ -46,13 +46,18 @@ const HandleListview: React.FC = () => {
     if (error) {
         return <p>An error occurred</p>;
     }
-
+    console.log(`tasks:- ${JSON.stringify(tasks)}`);
+    
     // Categorize tasks based on their status
     const categorizedTasks: TaskState = {
         todo: tasks.filter((task: Task) => task.taskStatus === 'TODO'),
-        inProgress: tasks.filter((task: Task) => task.taskStatus === 'IN-PROGRESS'),
+        inProgress: tasks.filter((task: Task) => task.taskStatus === 'INPROGRES'),
         completed: tasks.filter((task: Task) => task.taskStatus === 'COMPLETED'),
     };
+    console.log(`todo categorizedTasks:- ${JSON.stringify(categorizedTasks.todo)}`);
+    console.log(`inProgress categorizedTasks:- ${JSON.stringify(categorizedTasks.inProgress)}`);
+    console.log(`completed categorizedTasks:- ${JSON.stringify(categorizedTasks.completed)}`);
+    
 
     const renderTask = (task: Task) => (
         <div className="flex items-center justify-between border-b p-2" key={task.id}>
