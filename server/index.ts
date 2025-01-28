@@ -54,6 +54,7 @@ app.get(`${apiVersion}/tasks/:userId`, async (req: Request, res: Response) => {
       userId
     },
   });
+
   console.log(`result:- ${JSON.stringify(result)}`);
   res.status(200).send({result });
 });
@@ -64,7 +65,7 @@ app.post(`${apiVersion}/tasks`, verifyFirebaseToken, async (req: Request, res: R
     data: {
       title,
       description,
-      category: task_category,
+      category: task_category == "Work" ? "Work" : "Personal",
       DueOn: due_date,
       taskStatus: task_status == "completed" ? "COMPLETED" : task_status == "INPROGRES" ? "INPROGRES" : "TODO",
       userId
