@@ -56,14 +56,14 @@ app.get(`${apiVersion}/tasks/:userId`, async (req: Request, res: Response) => {
   });
 
   console.log(`result:- ${JSON.stringify(result)}`);
-  res.status(200).send({result });
+  res.status(200).send({ result });
 });
 
 app.post(`${apiVersion}/tasks`, verifyFirebaseToken, async (req: Request, res: Response) => {
   const { description, due_date, task_category, task_status, title, userId } = req.body;
   console.log(`task_category:- ${task_category}`);
   console.log(`task_status:- ${task_status}`);
-  
+
   const result = await prisma.tasks.create({
     data: {
       title,
@@ -93,8 +93,13 @@ app.put(`${apiVersion}/tasks/:taskId`, verifyFirebaseToken, (req: Request, res: 
   res.status(200).send({ message: "Task updated successfully", taskId, updates });
 });
 
-app.delete(`${apiVersion}/tasks/:taskId`, verifyFirebaseToken, (req: Request, res: Response) => {
+app.delete(`${apiVersion}/tasks/:taskId`, verifyFirebaseToken, async (req: Request, res: Response) => {
   const { taskId } = req.params;
+  await prisma.tasks.delete({
+    where: {
+      id: parseInt(taskId)
+    }
+  });
   // Delete task logic here
   res.status(200).send({ message: "Task deleted successfully", taskId });
 });

@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { auth } from "../config/firebase-config";
 import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
 
 type TaskCategory = "Work" | "Personal";
 type TaskStatus = "TODO" | "INPROGRES" | "COMPLETED";  // Update status values based on your data
@@ -28,6 +29,9 @@ const HandleListview: React.FC = () => {
     const context = useAuth();
     const [user] = useAuthState(auth);
 
+    const [checkedTasks, setCheckedTasks] = useState<Set<number>>(new Set()); // State to store checked task IDs
+
+
     const fetchTasks = async () => {
         const response = await axios.get(`http://localhost:5000/api/v1/tasks/${user?.uid}`);
         return response.data.result; // Assuming your data is under "result" key
@@ -46,8 +50,8 @@ const HandleListview: React.FC = () => {
     if (error) {
         return <p>An error occurred</p>;
     }
-    console.log(`tasks:- ${JSON.stringify(tasks)}`);
-    
+    // console.log(`tasks:- ${JSON.stringify(tasks)}`);
+
     // Categorize tasks based on their status
     const categorizedTasks: TaskState = {
         todo: tasks.filter((task: Task) => task.taskStatus === 'TODO'),
@@ -57,13 +61,32 @@ const HandleListview: React.FC = () => {
     console.log(`todo categorizedTasks:- ${JSON.stringify(categorizedTasks.todo)}`);
     console.log(`inProgress categorizedTasks:- ${JSON.stringify(categorizedTasks.inProgress)}`);
     console.log(`completed categorizedTasks:- ${JSON.stringify(categorizedTasks.completed)}`);
-    
+
+    const checkHandler = (taskId: number) => {
+        setCheckedTasks(prevState => {
+            const newCheckedTasks = new Set(prevState);
+            console.log(`Before newCheckedTasks:- ${[...newCheckedTasks]}`);
+            if (newCheckedTasks.has(taskId)) {
+                newCheckedTasks.delete(taskId);
+            } else {
+                newCheckedTasks.add(taskId);
+            }
+            console.log(`After newCheckedTasks:- ${[...newCheckedTasks]}`);
+
+            return newCheckedTasks;
+        });
+    }
+
+
 
     const renderTask = (task: Task) => (
         <div className="flex items-center justify-between border-b p-2" key={task.id}>
             <div className="flex items-center gap-2">
                 <div className="cursor-move">☰</div>
-                <input type="checkbox" />
+                <input type="checkbox"
+                    id="checkbox" checked={checkedTasks.has(task.id)}
+                    onChange={() => checkHandler(task.id)}
+                />
                 <div>{task.title}</div>
             </div>
             <div className="flex items-center gap-4">
