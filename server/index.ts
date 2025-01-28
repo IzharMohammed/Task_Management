@@ -93,7 +93,7 @@ app.put(`${apiVersion}/tasks/:taskId`, verifyFirebaseToken, (req: Request, res: 
   res.status(200).send({ message: "Task updated successfully", taskId, updates });
 });
 
-app.delete(`${apiVersion}/tasks/:taskId`, verifyFirebaseToken, async (req: Request, res: Response) => {
+app.delete(`${apiVersion}/tasks/:taskId`, async (req: Request, res: Response) => {
   const { taskId } = req.params;
   await prisma.tasks.delete({
     where: {

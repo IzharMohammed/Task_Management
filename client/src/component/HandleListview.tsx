@@ -62,6 +62,11 @@ const HandleListview: React.FC = () => {
     console.log(`inProgress categorizedTasks:- ${JSON.stringify(categorizedTasks.inProgress)}`);
     console.log(`completed categorizedTasks:- ${JSON.stringify(categorizedTasks.completed)}`);
 
+    const deleteTask = async (taskId: number) => {
+        await axios.delete(`http://localhost:5000/api/v1/tasks/${taskId}`);
+    }
+
+
     const checkHandler = (taskId: number) => {
         setCheckedTasks(prevState => {
             const newCheckedTasks = new Set(prevState);
@@ -70,6 +75,7 @@ const HandleListview: React.FC = () => {
                 newCheckedTasks.delete(taskId);
             } else {
                 newCheckedTasks.add(taskId);
+                deleteTask(taskId);
             }
             console.log(`After newCheckedTasks:- ${[...newCheckedTasks]}`);
 
