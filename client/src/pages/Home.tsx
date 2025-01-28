@@ -5,24 +5,57 @@ import "firebase/auth";
 import { auth, signInWithGooglePopup } from '../config/firebase-config';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import { useAuth } from '../hooks/useAuth';
 
 
 
 function Home() {
-  const logGoogleUser = async () => {
-    const response = await signInWithGooglePopup();
-    console.log(response);
-    console.log(response.user.email);
-  }
-  const navigate = useNavigate();
+  const context = useAuth();
   const [user] = useAuthState(auth);
 
-  
+  const logGoogleUser = async () => {
+    const response = await signInWithGooglePopup();
+    console.log(`response from firebase:- ${JSON.stringify(response)}`);
+    //@ts-ignore
+    const accessToken = response?.user?.accessToken
+    // console.log(response.user.email);
+    console.log(`${response.user.uid}: ${response.user.displayName}: ${response.user.email}: ${response.user.photoURL}: ${response?.user?.accessToken}`);
+    const data = {
+      uid: response.user.uid,
+      displayName: response.user.displayName,
+      email: response.user.email,
+      photoUrl: response.user.photoURL,
+      accessToken,
+    }
+    console.log(`accesstoken:- ${context.authData.accessToken}`);
+    console.log(`accessToken:- ${accessToken}`);
+    if (accessToken) {
+      await axios.post(`http://localhost:5000/api/v1/auth/verify`,
+        data,
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        }
+      )
+        .then((response) => {
+          console.log(response.data);
+        })
+    }
+  }
 
-  console.log(`user:- ${JSON.stringify(user)}`);
+  console.log(`accesstoken:- ${context.authData.accessToken}`);
+
+
+  const navigate = useNavigate();
+
+  // console.log(user?.getIdToken);
+
+  // console.log(`user:- ${JSON.stringify(user)}`);
   if (user?.emailVerified) {
     navigate('/taskListView')
-  }else{
+  } else {
     navigate('/')
   }
   // const handleLogout = () => {

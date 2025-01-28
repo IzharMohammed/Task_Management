@@ -1,29 +1,45 @@
-import React, { useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 import { useForm } from 'react-hook-form';
+import { useAuth } from "../hooks/useAuth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../config/firebase-config";
 const CreateTaskModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const context = useAuth();
 
-  const [allValues, setAllValues] = useState({
-    title: '',
-    description: '',
-  })
 
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data: any) => console.log(data);
-  console.log(errors);
+
+  const [user] = useAuthState(auth);
 
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  }
+  const onSubmit = async (data: any) => {
+    try {
+      await axios.post('http://localhost:5000/api/v1/tasks',
+        {
+          title: data.title,
+          description: data.description,
+          task_category: data.task_category,
+          due_date: data.due_date,
+          task_status: data.task_status,
+          userId: user?.uid,
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${context.authData.accessToken}`, // Properly set the Authorization header
+          },
+        }
+      );
+      console.log(data);
+    } catch (error) {
+      console.error('Error in Axios POST request:', error);
+    }
+  };
+
+  const openModal = () => setIsModalOpen(true);
 
   const closeModal = () => setIsModalOpen(false);
-
-  const changeHandler = (e: { target: { name: any; value: any; }; }) => {
-    setAllValues({ ...allValues, [e.target.name]: e.target.value })
-  }
-
-
 
   return (
     <div className="p-4">
@@ -51,55 +67,7 @@ const CreateTaskModal = () => {
             </div>
 
             {/* Modal Body */}
-            {/* <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Task title"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                onChange={changeHandler}
-              />
-              <textarea
-                placeholder="Description"
-                maxLength={300}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 h-20 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                onChange={changeHandler}
-              ></textarea>
 
-              <div className="space-y-2">
-                <label className="block font-medium">Task Category*</label>
-                <div className="flex space-x-4">
-                  <button className="px-4 py-2 cursor-pointer rounded-md bg-gray-100 hover:bg-gray-200 border border-gray-300">
-                    Work
-                  </button>
-                  <button className="px-4 py-2 rounded-md cursor-pointer bg-gray-100 hover:bg-gray-200 border border-gray-300">
-                    Personal
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="block font-medium">Due on</label>
-                <input
-                  type="date"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block font-medium">Task Status*</label>
-                <select
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                >
-                  <option>Choose</option>
-                  <option>To-Do</option>
-                  <option>In-Progress</option>
-                  <option>Completed</option>
-                </select>
-              </div>
-
-              
-
-            </div> */}
             <div className="space-y-4">
               <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -107,22 +75,22 @@ const CreateTaskModal = () => {
                   type="text"
                   placeholder="Task title"
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  {...register} />
+                  {...register("title", { required: true })} />
 
                 <textarea
                   className="w-full border border-gray-300 rounded-md px-3 py-2 h-20 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  {...register("Description", { required: true })} />
+                  {...register("description", { required: true })} />
 
-                <select {...register("Task Category*", { required: true })}>
+                <select {...register("task_category", { required: true })}>
                   <option value="Work">Work</option>
                   <option value=" Personal"> Personal</option>
                 </select>
 
-                <input type="date" placeholder="Due on " {...register("Due on ", { required: true })} />
+                <input type="date" placeholder="dueDate" {...register("due_date", { required: true })} />
 
                 <select
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  {...register("Task Status*", { required: true })}>
+                  {...register("task_status", { required: true })}>
                   <option value="To-Do">To-Do</option>
                   <option value=" In-Progress"> In-Progress</option>
                   <option value=" Completed"> Completed</option>
