@@ -45,11 +45,17 @@ app.post(`${apiVersion}/auth/verify`, verifyFirebaseToken, async (req: Request, 
 });
 
 // Task Management routes
-app.get(`${apiVersion}/tasks`, verifyFirebaseToken, async (req: Request, res: Response) => {
+app.get(`${apiVersion}/tasks/:userId`, async (req: Request, res: Response) => {
   // Fetch all tasks for the authenticated user
+  const userId = req.params.userId;
 
-
-  res.status(200).send({ message: "All tasks fetched" });
+  const result = await prisma.tasks.findMany({
+    where: {
+      userId
+    },
+  });
+  console.log(`result:- ${JSON.stringify(result)}`);
+  res.status(200).send({result });
 });
 
 app.post(`${apiVersion}/tasks`, verifyFirebaseToken, async (req: Request, res: Response) => {

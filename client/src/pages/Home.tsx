@@ -20,7 +20,6 @@ function Home() {
     //@ts-ignore
     const accessToken = response?.user?.accessToken
     // console.log(response.user.email);
-    console.log(`${response.user.uid}: ${response.user.displayName}: ${response.user.email}: ${response.user.photoURL}: ${response?.user?.accessToken}`);
     const data = {
       uid: response.user.uid,
       displayName: response.user.displayName,
