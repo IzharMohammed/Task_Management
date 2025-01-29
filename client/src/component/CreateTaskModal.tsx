@@ -93,7 +93,7 @@ const CreateTaskModal = () => {
                   {...register("task_status", { required: true })}>
                   <option value="To-Do">To-Do</option>
                   <option value="In-Progress"> In-Progress</option>
-                  <option value="Completed"> Completed</option>
+                  {/* <option value="Completed"> Completed</option> */}
                 </select>
 
                 {/* Modal Footer */}

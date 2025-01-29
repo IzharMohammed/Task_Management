@@ -1,32 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import {  AiOutlineEdit } from "react-icons/ai";
 import { auth } from "../config/firebase-config";
-import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 
-type TaskCategory = "Work" | "Personal";
-type TaskStatus = "TODO" | "INPROGRES" | "COMPLETED";  // Update status values based on your data
-
-interface Task {
-    id: number;
-    title: string;
-    description: string;
-    category: TaskCategory;
-    DueOn: string; // Use DueOn as the task date
-    taskStatus: TaskStatus; // taskStatus corresponds to the task status in the data
-    userId: string;
-}
-
-interface TaskState {
-    todo: Task[];
-    inProgress: Task[];
-    completed: Task[];
-}
-
 const HandleListview: React.FC = () => {
-    const context = useAuth();
     const [user] = useAuthState(auth);
 
     const [checkedTasks, setCheckedTasks] = useState<Set<number>>(new Set()); // State to store checked task IDs
