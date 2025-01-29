@@ -31,7 +31,6 @@ const HandleListview: React.FC = () => {
 
     const [checkedTasks, setCheckedTasks] = useState<Set<number>>(new Set()); // State to store checked task IDs
 
-
     const fetchTasks = async () => {
         const response = await axios.get(`http://localhost:5000/api/v1/tasks/${user?.uid}`);
         return response.data.result; // Assuming your data is under "result" key
@@ -112,7 +111,6 @@ const HandleListview: React.FC = () => {
                 </div>
                 <div className="flex gap-2">
                     <AiOutlineEdit className="cursor-pointer" />
-                    <AiOutlineDelete className="cursor-pointer text-red-500" />
                 </div>
             </div>
         </div>
