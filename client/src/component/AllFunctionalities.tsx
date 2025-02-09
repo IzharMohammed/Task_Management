@@ -1,6 +1,32 @@
 import CreateTaskModal from "./CreateTaskModal"
+import { useTodos } from "../hooks/useTodos";
+
+type Category = "work" | "personal"
+type Added = "oldest" | "newest"
 
 const AllFunctionalities: React.FC = () => {
+    const { isLoading, error, categorizedTasks } = useTodos()
+
+    // If loading
+    if (isLoading) {
+        return <p>Loading...</p>;
+    }
+
+    // If error
+    if (error) {
+        return <p>An error occurred</p>;
+    }
+
+    const sortTasks = (category: Category) => {
+        if (category === "personal") {
+            // categorizedTasks.todo.pe
+        } else if (category === "work") {
+
+        }
+    }
+
+    const sortByDates = (added: Added) => { }
+
     return (
         <div className="flex justify-between mb-4 mt-4">
             <div className="flex items-center gap-3">
@@ -9,8 +35,8 @@ const AllFunctionalities: React.FC = () => {
                     <details className="dropdown inline-block">
                         <summary className="btn m-1 border  cursor-pointer">Categories</summary>
                         <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-40  bg-[#7B198426] p-2 shadow">
-                            <li><a>work</a></li>
-                            <li><a>personal</a></li>
+                            <li className="cursor-pointer" onClick={() => sortTasks("work")} ><a>work</a></li>
+                            <li className="cursor-pointer"><a>personal</a></li>
                         </ul>
                     </details>
                 </div>
@@ -18,8 +44,8 @@ const AllFunctionalities: React.FC = () => {
                     <details className="dropdown inline-block">
                         <summary className="btn m-1 cursor-pointer">Due date:</summary>
                         <ul className="menu bg-[#7B198426] dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                            <li><a>Item 1</a></li>
-                            <li><a>Item 2</a></li>
+                            <li className="cursor-pointer" onClick={() => sortByDates("oldest")}><a>oldest</a></li>
+                            <li className="cursor-pointer" onClick={() => sortByDates("newest")}><a>newest</a></li>
                         </ul>
                     </details>
                 </div>

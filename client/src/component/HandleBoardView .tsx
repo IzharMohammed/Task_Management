@@ -1,22 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { auth } from "../config/firebase-config";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useTodos } from "../hooks/useTodos";
 
 const HandleBoardView: React.FC = () => {
-    const [user] = useAuthState(auth);
 
-    const fetchTasks = async () => {
-        const response = await axios.get(`http://localhost:5000/api/v1/tasks/${user?.uid}`);
-        return response.data.result; // Assuming your data is under "result" key
-    };
-
-    const { isLoading, error, data: tasks } = useQuery(['todos', user?.uid], fetchTasks, {
-        enabled: !!user?.uid, // Only fetch if user is authenticated
-    });
-
-    console.log(`tasks from handleBoardView :- ${JSON.stringify(tasks)}`);
-
+    const { isLoading, error, categorizedTasks } = useTodos()
 
     // If loading
     if (isLoading) {
@@ -27,14 +13,6 @@ const HandleBoardView: React.FC = () => {
     if (error) {
         return <p>An error occurred</p>;
     }
-    // console.log(`tasks:- ${JSON.stringify(tasks)}`);
-
-    // Categorize tasks based on their status
-    const categorizedTasks: TaskStateBoardView = {
-        todo: tasks.filter((task: Task) => task.taskStatus === 'TODO'),
-        inprogres: tasks.filter((task: Task) => task.taskStatus === 'INPROGRES'),
-        completed: tasks.filter((task: Task) => task.taskStatus === 'COMPLETED'),
-    };
 
     categorizedTasks.todo.map((task) => {
         console.log(`todo task:- ${JSON.stringify(task)}`);

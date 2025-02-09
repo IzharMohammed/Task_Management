@@ -15,7 +15,7 @@ function TaskListView() {
     const context = useAuth();
     const navigate = useNavigate();
     const queryClient = new QueryClient();
-    
+
     console.log(`context:- ${JSON.stringify(context)}`);
     if (!context.authData.displayName) {
         navigate('/');
@@ -31,9 +31,9 @@ function TaskListView() {
                     <Board view={view} setView={setView} />
                 </div>
             </div>
-            <AllFunctionalities />
-
             <QueryClientProvider client={queryClient}>
+                <AllFunctionalities />
+
                 <div>
                     {
                         view === "list" && <HandleListview />

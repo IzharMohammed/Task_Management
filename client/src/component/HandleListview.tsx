@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
-import {  AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineEdit } from "react-icons/ai";
 import { auth } from "../config/firebase-config";
 import { useState } from "react";
 
@@ -36,6 +36,7 @@ const HandleListview: React.FC = () => {
         inProgress: tasks.filter((task: Task) => task.taskStatus === 'INPROGRES'),
         completed: tasks.filter((task: Task) => task.taskStatus === 'COMPLETED'),
     };
+
     console.log(`todo categorizedTasks:- ${JSON.stringify(categorizedTasks.todo)}`);
     console.log(`inProgress categorizedTasks:- ${JSON.stringify(categorizedTasks.inProgress)}`);
     console.log(`completed categorizedTasks:- ${JSON.stringify(categorizedTasks.completed)}`);
@@ -61,6 +62,9 @@ const HandleListview: React.FC = () => {
         });
     }
 
+    const handleStatusChange = async (taskId: number, status: string) => {
+        await axios.patch(`http://localhost:5000/api/v1/tasks/${taskId}`, { taskStatus: status });
+    }
 
 
     const renderTask = (task: Task) => (
@@ -76,9 +80,12 @@ const HandleListview: React.FC = () => {
             <div className="flex items-center gap-4">
                 <div>{task.DueOn}</div> {/* Display DueOn date */}
                 <div>
-                    <select value={task.taskStatus}>
+                    <select
+                        value={task.taskStatus}
+                        onChange={(e) => handleStatusChange(task.id, e.target.value)}
+                    >
                         <option value="TODO">TO-DO</option>
-                        <option value="IN-PROGRESS">IN-PROGRESS</option>
+                        <option value="INPROGRES">IN-PROGRESS</option>
                         <option value="COMPLETED">COMPLETED</option>
                     </select>
                 </div>
