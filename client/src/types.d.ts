@@ -1,4 +1,4 @@
-type TaskCategory = "Work" | "Personal";
+type TaskCategory = "Work" | "Personal" | undefined;
 type TaskStatus = "TODO" | "INPROGRES" | "COMPLETED";  // Update status values based on your data
 
 interface Task {

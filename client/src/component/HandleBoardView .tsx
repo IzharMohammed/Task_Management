@@ -1,8 +1,26 @@
-import { useTodos } from "../hooks/useTodos";
+import axios from "axios";
+import { auth } from "../config/firebase-config";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useQuery } from "@tanstack/react-query";
 
-const HandleBoardView: React.FC = () => {
+type Category = "work" | "personal" | null
+type SortOrder = "newest" | "oldest"
+interface HandleListviewProps {
+    category: Category
+    sortOrder: SortOrder
+}
 
-    const { isLoading, error, categorizedTasks } = useTodos()
+const HandleBoardView: React.FC<HandleListviewProps> = ({ category, sortOrder }) => {
+    const fetchTasks = async () => {
+        const response = await axios.get(`http://localhost:5000/api/v1/tasks/${user?.uid}`);
+        return response.data.result; // Assuming your data is under "result" key
+    };
+    const [user] = useAuthState(auth);
+
+
+    const { isLoading, error, data: tasks } = useQuery(['todos', user?.uid], fetchTasks, {
+        enabled: !!user?.uid, // Only fetch if user is authenticated
+    });
 
     // If loading
     if (isLoading) {
@@ -13,6 +31,20 @@ const HandleBoardView: React.FC = () => {
     if (error) {
         return <p>An error occurred</p>;
     }
+    const filteredTasks = category ? tasks.filter((task: Task) => task.category?.toLowerCase() === category.toLowerCase()) : tasks
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+        const dateA = new Date(a.DueOn).getTime()
+        const dateB = new Date(b.DueOn).getTime()
+        return sortOrder === "newest" ? dateB - dateA : dateA - dateB
+    })
+
+
+    // Categorize tasks based on their status
+    const categorizedTasks: TaskStateBoardView = {
+        todo: sortedTasks.filter((task: Task) => task.taskStatus === 'TODO'),
+        inprogres: sortedTasks.filter((task: Task) => task.taskStatus === 'INPROGRES'),
+        completed: sortedTasks.filter((task: Task) => task.taskStatus === 'COMPLETED'),
+    };
 
     categorizedTasks.todo.map((task) => {
         console.log(`todo task:- ${JSON.stringify(task)}`);

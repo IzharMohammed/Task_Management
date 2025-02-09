@@ -1,11 +1,29 @@
 import CreateTaskModal from "./CreateTaskModal"
-import { useTodos } from "../hooks/useTodos";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { auth } from "../config/firebase-config";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-type Category = "work" | "personal"
-type Added = "oldest" | "newest"
+type Category = "work" | "personal" | null
+type SortOrder = "newest" | "oldest"
+interface AllFunctionalitiesProps {
+    setSelectedCategory: (category: Category) => void
+    setSortOrder: (sortOrder: SortOrder) => void
+}
+const AllFunctionalities: React.FC<AllFunctionalitiesProps> = ({ setSelectedCategory, setSortOrder }) => {
+    // const { isLoading, error, categorizedTasks } = useTodos()
+    const fetchTasks = async () => {
+        const response = await axios.get(`http://localhost:5000/api/v1/tasks/${user?.uid}`);
+        return response.data.result; // Assuming your data is under "result" key
+    };
+    const [user] = useAuthState(auth);
 
-const AllFunctionalities: React.FC = () => {
-    const { isLoading, error, categorizedTasks } = useTodos()
+
+    const { isLoading, error, data: tasks } = useQuery(['todos', user?.uid], fetchTasks, {
+        enabled: !!user?.uid, // Only fetch if user is authenticated
+    });
+
+    console.log(`tasks:- ${JSON.stringify(tasks)}`);
 
     // If loading
     if (isLoading) {
@@ -17,15 +35,6 @@ const AllFunctionalities: React.FC = () => {
         return <p>An error occurred</p>;
     }
 
-    const sortTasks = (category: Category) => {
-        if (category === "personal") {
-            // categorizedTasks.todo.pe
-        } else if (category === "work") {
-
-        }
-    }
-
-    const sortByDates = (added: Added) => { }
 
     return (
         <div className="flex justify-between mb-4 mt-4">
@@ -35,8 +44,8 @@ const AllFunctionalities: React.FC = () => {
                     <details className="dropdown inline-block">
                         <summary className="btn m-1 border  cursor-pointer">Categories</summary>
                         <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-40  bg-[#7B198426] p-2 shadow">
-                            <li className="cursor-pointer" onClick={() => sortTasks("work")} ><a>work</a></li>
-                            <li className="cursor-pointer"><a>personal</a></li>
+                            <li className="cursor-pointer" onClick={() => setSelectedCategory("work")} ><a>work</a></li>
+                            <li className="cursor-pointer" onClick={() => setSelectedCategory("personal")}><a>personal</a></li>
                         </ul>
                     </details>
                 </div>
@@ -44,8 +53,8 @@ const AllFunctionalities: React.FC = () => {
                     <details className="dropdown inline-block">
                         <summary className="btn m-1 cursor-pointer">Due date:</summary>
                         <ul className="menu bg-[#7B198426] dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                            <li className="cursor-pointer" onClick={() => sortByDates("oldest")}><a>oldest</a></li>
-                            <li className="cursor-pointer" onClick={() => sortByDates("newest")}><a>newest</a></li>
+                            <li className="cursor-pointer" onClick={() => setSortOrder("oldest")} ><a>oldest</a></li>
+                            <li className="cursor-pointer" onClick={() => setSortOrder("newest")} ><a>newest</a></li>
                         </ul>
                     </details>
                 </div>

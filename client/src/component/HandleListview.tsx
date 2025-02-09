@@ -5,7 +5,14 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { auth } from "../config/firebase-config";
 import { useState } from "react";
 
-const HandleListview: React.FC = () => {
+type Category = "work" | "personal" | null
+type SortOrder = "newest" | "oldest"
+interface HandleListviewProps {
+    category: Category
+    sortOrder: SortOrder
+}
+
+const HandleListview: React.FC<HandleListviewProps> = ({ category, sortOrder }) => {
     const [user] = useAuthState(auth);
 
     const [checkedTasks, setCheckedTasks] = useState<Set<number>>(new Set()); // State to store checked task IDs
@@ -28,18 +35,23 @@ const HandleListview: React.FC = () => {
     if (error) {
         return <p>An error occurred</p>;
     }
-    // console.log(`tasks:- ${JSON.stringify(tasks)}`);
 
+    const filteredTasks = category ? tasks.filter((task: Task) => task.category?.toLowerCase() === category.toLowerCase()) : tasks
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+        const dateA = new Date(a.DueOn).getTime()
+        const dateB = new Date(b.DueOn).getTime()
+        return sortOrder === "newest" ? dateB - dateA : dateA - dateB
+    })
     // Categorize tasks based on their status
     const categorizedTasks: TaskState = {
-        todo: tasks.filter((task: Task) => task.taskStatus === 'TODO'),
-        inProgress: tasks.filter((task: Task) => task.taskStatus === 'INPROGRES'),
-        completed: tasks.filter((task: Task) => task.taskStatus === 'COMPLETED'),
+        todo: sortedTasks.filter((task: Task) => task.taskStatus === 'TODO'),
+        inProgress: sortedTasks.filter((task: Task) => task.taskStatus === 'INPROGRES'),
+        completed: sortedTasks.filter((task: Task) => task.taskStatus === 'COMPLETED'),
     };
 
-    console.log(`todo categorizedTasks:- ${JSON.stringify(categorizedTasks.todo)}`);
-    console.log(`inProgress categorizedTasks:- ${JSON.stringify(categorizedTasks.inProgress)}`);
-    console.log(`completed categorizedTasks:- ${JSON.stringify(categorizedTasks.completed)}`);
+    // console.log(`todo categorizedTasks:- ${JSON.stringify(categorizedTasks.todo)}`);
+    // console.log(`inProgress categorizedTasks:- ${JSON.stringify(categorizedTasks.inProgress)}`);
+    // console.log(`completed categorizedTasks:- ${JSON.stringify(categorizedTasks.completed)}`);
 
     const deleteTask = async (taskId: number) => {
         await axios.delete(`http://localhost:5000/api/v1/tasks/${taskId}`);
@@ -49,14 +61,14 @@ const HandleListview: React.FC = () => {
     const checkHandler = (taskId: number) => {
         setCheckedTasks(prevState => {
             const newCheckedTasks = new Set(prevState);
-            console.log(`Before newCheckedTasks:- ${[...newCheckedTasks]}`);
+            // console.log(`Before newCheckedTasks:- ${[...newCheckedTasks]}`);
             if (newCheckedTasks.has(taskId)) {
                 newCheckedTasks.delete(taskId);
             } else {
                 newCheckedTasks.add(taskId);
                 deleteTask(taskId);
             }
-            console.log(`After newCheckedTasks:- ${[...newCheckedTasks]}`);
+            // console.log(`After newCheckedTasks:- ${[...newCheckedTasks]}`);
 
             return newCheckedTasks;
         });
