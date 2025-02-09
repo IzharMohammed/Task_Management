@@ -3,12 +3,6 @@ import { auth } from "../config/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "@tanstack/react-query";
 
-type Category = "work" | "personal" | null
-type SortOrder = "newest" | "oldest"
-interface HandleListviewProps {
-    category: Category
-    sortOrder: SortOrder
-}
 
 const HandleBoardView: React.FC<HandleListviewProps> = ({ category, sortOrder }) => {
     const fetchTasks = async () => {
@@ -31,7 +25,9 @@ const HandleBoardView: React.FC<HandleListviewProps> = ({ category, sortOrder })
     if (error) {
         return <p>An error occurred</p>;
     }
+
     const filteredTasks = category ? tasks.filter((task: Task) => task.category?.toLowerCase() === category.toLowerCase()) : tasks
+
     const sortedTasks = [...filteredTasks].sort((a, b) => {
         const dateA = new Date(a.DueOn).getTime()
         const dateB = new Date(b.DueOn).getTime()

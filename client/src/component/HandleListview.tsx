@@ -5,12 +5,6 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { auth } from "../config/firebase-config";
 import { useState } from "react";
 
-type Category = "work" | "personal" | null
-type SortOrder = "newest" | "oldest"
-interface HandleListviewProps {
-    category: Category
-    sortOrder: SortOrder
-}
 
 const HandleListview: React.FC<HandleListviewProps> = ({ category, sortOrder }) => {
     const [user] = useAuthState(auth);
@@ -114,28 +108,28 @@ const HandleListview: React.FC<HandleListviewProps> = ({ category, sortOrder }) 
         </div>
     );
 
-    return (
-        <div className="p-4 bg-gray-100 h-screen">
-            <div className="bg-purple-100 p-4 rounded-lg mb-4">
-                <h2 className="text-purple-800 font-bold">Todo ({categorizedTasks.todo.length})</h2>
-                <div className="border-t mt-2">
-                    {categorizedTasks.todo.map(renderTask)}
+        return (
+                <div className="p-4 bg-gray-100 h-screen">
+                    <div className="bg-purple-100 p-4 rounded-lg mb-4">
+                        <h2 className="text-purple-800 font-bold">Todo ({categorizedTasks.todo.length})</h2>
+                        <div className="border-t mt-2">
+                            {categorizedTasks.todo.map(renderTask)}
+                        </div>
+                    </div>
+                    <div className="bg-blue-100 p-4 rounded-lg mb-4">
+                        <h2 className="text-blue-800 font-bold">In-Progress ({categorizedTasks.inProgress.length})</h2>
+                        <div className="border-t mt-2">
+                            {categorizedTasks.inProgress.map(renderTask)}
+                        </div>
+                    </div>
+                    <div className="bg-green-100 p-4 rounded-lg">
+                        <h2 className="text-green-800 font-bold">Completed ({categorizedTasks.completed.length})</h2>
+                        <div className="border-t mt-2">
+                            {categorizedTasks.completed.map(renderTask)}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="bg-blue-100 p-4 rounded-lg mb-4">
-                <h2 className="text-blue-800 font-bold">In-Progress ({categorizedTasks.inProgress.length})</h2>
-                <div className="border-t mt-2">
-                    {categorizedTasks.inProgress.map(renderTask)}
-                </div>
-            </div>
-            <div className="bg-green-100 p-4 rounded-lg">
-                <h2 className="text-green-800 font-bold">Completed ({categorizedTasks.completed.length})</h2>
-                <div className="border-t mt-2">
-                    {categorizedTasks.completed.map(renderTask)}
-                </div>
-            </div>
-        </div>
-    );
+        );
+    
 };
-
 export default HandleListview;

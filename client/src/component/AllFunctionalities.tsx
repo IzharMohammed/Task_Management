@@ -4,12 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { auth } from "../config/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-type Category = "work" | "personal" | null
-type SortOrder = "newest" | "oldest"
 interface AllFunctionalitiesProps {
     setSelectedCategory: (category: Category) => void
     setSortOrder: (sortOrder: SortOrder) => void
 }
+
 const AllFunctionalities: React.FC<AllFunctionalitiesProps> = ({ setSelectedCategory, setSortOrder }) => {
     // const { isLoading, error, categorizedTasks } = useTodos()
     const fetchTasks = async () => {

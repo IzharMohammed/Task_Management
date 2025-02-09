@@ -1,4 +1,4 @@
-type TaskCategory = "Work" | "Personal" | undefined;
+type TaskCategory = "Work" | "Personal";
 type TaskStatus = "TODO" | "INPROGRES" | "COMPLETED";  // Update status values based on your data
 
 interface Task {
@@ -22,3 +22,17 @@ interface TaskStateBoardView {
     inprogres: Task[];
     completed: Task[];
 }
+
+type Category = "work" | "personal" | null
+type SortOrder = "newest" | "oldest"
+
+interface HandleListviewProps {
+    category: Category
+    sortOrder: SortOrder
+}
+
+interface HandleListviewProps {
+    category: Category
+    sortOrder: SortOrder
+}
+
